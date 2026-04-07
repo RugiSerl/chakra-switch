@@ -102,10 +102,11 @@ export default class PeekView {
                 sourceActor = windowActor;
             }
 
-            const maxScale = this._settings.get_int('peek-max-scale') / 100;
-            const monitor  = Main.layoutManager.primaryMonitor;
-            const maxW     = monitor.width  * maxScale;
-            const maxH     = monitor.height * maxScale;
+            const maxScale  = this._settings.get_int('peek-max-scale') / 100;
+            const monitor   = Main.layoutManager.primaryMonitor;
+            const workArea  = global.workspace_manager.get_active_workspace().get_work_area_for_monitor(monitor);
+            const maxW      = workArea.width  * maxScale;
+            const maxH      = workArea.height * maxScale;
 
             let previewW = w, previewH = h;
             if (previewW > maxW) { previewW = maxW; previewH = (h / w) * previewW; }
@@ -119,14 +120,14 @@ export default class PeekView {
                 style_class: 'chakra-peek-wrap',
             });
 
-            const targetX = monitor.x + (monitor.width  / 2) - (previewW  / 2);
-            const targetY = monitor.y + (monitor.height / 2) - (previewH / 2);
+            const targetX = workArea.x + (workArea.width  / 2) - (previewW  / 2);
+            const targetY = workArea.y + (workArea.height / 2) - (previewH / 2);
 
             this._container.remove_all_transitions();
             this._container.destroy_all_children();
             this._container.add_child(wrapBin);
             this._container.set_size(previewW, previewH);
-            this._container.set_position(targetX+monitor.width, targetY);
+            this._container.set_position(targetX+workArea.width, targetY);
             this._container.set_pivot_point(0.5, 0.5);
             this._container.set_scale(0.94, 0.94);
 
