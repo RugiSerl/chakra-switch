@@ -305,8 +305,11 @@ export default class ChakraSwitcher {
 
         this._buildWindowList();
         if (this._cards.length === 0) return;
-
-        this._selectedIndex = backward ? Math.max(0, this._cards.length - 2) : Math.min(this._cards.length, 1);
+        if (this._cards.length === 1) {
+            this._selectedIndex = 0;
+        } else {
+            this._selectedIndex = backward ? Math.max(0, this._cards.length - 1) : Math.min(this._cards.length, 1);
+        }
         this._container.visible = true;
         this._overlay.visible   = true;
 
