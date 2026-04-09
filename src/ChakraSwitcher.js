@@ -208,7 +208,9 @@ export default class ChakraSwitcher {
             const targetY     = card.actor._targetY !== undefined ? card.actor._targetY : card.actor.y;
 
             if (isFocused) {
-                try { this._peekView.show(card.window); } catch (e) {}
+                if (this._cards.length > 1) {
+                    try { this._peekView.show(card.window); } catch (e) {}
+                }
                 card.actor.add_style_class_name('chakra-window-card-focused');
 
                 if (!isEntry) {
